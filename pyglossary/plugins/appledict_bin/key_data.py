@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from typing import TypeAlias
 
+from pyglossary.xml_utils import xml_escape
+
 # Copyright © 2023 soshial <soshial@gmail.com> (soshial)
 #
 # This program is a free software; you can redistribute it and/or modify
@@ -76,9 +78,9 @@ class KeyData:
 		if self.parentalControl != 0:
 			d_index_xml += f' d:parental-control="{self.parentalControl}"'
 		if self.keyword:
-			d_index_xml += f' d:value="{self.keyword}"'
+			d_index_xml += f' d:value="{xml_escape(self.keyword)}"'
 		if self.headword:
-			d_index_xml += f' d:title="{self.headword}"'
+			d_index_xml += f' d:title="{xml_escape(self.headword)}"'
 		if self.anchor:
 			d_index_xml += f' d:anchor="{self.anchor}"'
 		d_index_xml += ' />'

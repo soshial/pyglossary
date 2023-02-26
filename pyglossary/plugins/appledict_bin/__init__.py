@@ -309,35 +309,42 @@ class Reader(object):
 	) -> str:
 		from lxml import etree
 
-		if not self._html:
-			# FIXME: this produces duplicate text for Idioms.dictionary, see #301
-			return "".join([
-				etree.tostring(
-					child,
-					encoding="utf-8",
-				).decode("utf-8")
-				for child in entryElem.iterdescendants()
-			])
+		# if not self._html:
+		# 	# FIXME: this produces duplicate text for Idioms.dictionary, see #301
+		# 	return "".join([
+		# 		etree.tostring(
+		# 			child,
+		# 			encoding="utf-8",
+		# 		).decode("utf-8")
+		# 		for child in entryElem.iterdescendants()
+		# 	])
+		#
+		# entryElem.tag = "div"
+		# for attr in entryElem.attrib.keys():
+		# 	# if attr == "id" or attr.endswith("title"):
+		# 	del entryElem.attrib[attr]
 
-		entryElem.tag = "div"
-		for attr in entryElem.attrib.keys():
-			# if attr == "id" or attr.endswith("title"):
-			del entryElem.attrib[attr]
+		for keyData in keyDataList:
+			try:
+				entryElem.insert(0, etree.fromstring(keyData.to_xml_string()))
+			except etree.XMLSyntaxError as e:
+				print(keyData.to_xml_string())
+				quit()
 
 		defi = etree.tostring(
 			entryElem,
 			encoding="utf-8",
-			method="html",
+			# method="html", remove to auto-close tags
 		).decode("utf-8")
-		defi = self.fixLinksInDefi(defi)
+		# defi = self.fixLinksInDefi(defi)
 		defi = self._re_xmlns.sub("", defi)
 
-		if self._html_full:
-			defi = (
-				f'<!DOCTYPE html><html><head>'
-				f'<link rel="stylesheet" href="style.css">'
-				f'</head><body>{defi}</body></html>'
-			)
+		# if self._html_full:
+		# 	defi = (
+		# 		f'<!DOCTYPE html><html><head>'
+		# 		f'<link rel="stylesheet" href="style.css">'
+		# 		f'</head><body>{defi}</body></html>'
+		# 	)
 
 		return defi
 

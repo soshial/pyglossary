@@ -1,0 +1,44 @@
+-v "10.5" -c 0 -t 0
+"006-en-oxfjord_v10.5_c0_t0"
+
+-v "10.5" -c 1 -t 0
+"006-en-oxfjord_v10.5_c1_t0"
+
+-v "10.6" -c 0 -t 0
+"006-en-oxfjord_v10.6_c0_t0"
+
+-v "10.6" -c 0 -t 1
+"006-en-oxfjord_v10.6_c0_t1"
+
+-v "10.6" -c 0 -t 2
+"006-en-oxfjord_v10.6_c0_t2"
+
+-v "10.6" -c 0 -t 3
+"006-en-oxfjord_v10.6_c0_t3"
+
+-v "10.6" -c 1 -t 0
+"006-en-oxfjord_v10.6_c1_t0"
+
+-v "10.6" -c 1 -t 1
+"006-en-oxfjord_v10.6_c1_t1"
+
+-v "10.6" -c 1 -t 2
+"006-en-oxfjord_v10.6_c1_t2"
+
+-v "10.6" -c 1 -t 3
+"006-en-oxfjord_v10.6_c1_t3"
+
+-v "10.6" -c 2 -t 0
+"006-en-oxfjord_v10.6_c2_t0"
+
+-v "10.6" -c 2 -t 1
+"006-en-oxfjord_v10.6_c2_t1"
+
+-v "10.6" -c 2 -t 2
+"006-en-oxfjord_v10.6_c2_t2"
+
+-v "10.6" -c 2 -t 3
+"006-en-oxfjord_v10.6_c2_t3"
+
+-v "10.11" -c 2 -t 3
+"006-en-oxfjord_v10.11_c2_t3"

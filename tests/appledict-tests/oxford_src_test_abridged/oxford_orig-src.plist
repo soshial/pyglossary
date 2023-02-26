@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.apple.dictionary.ODE</string>
+	<key>CFBundleDisplayName</key>
+	<string>Oxford Dictionary of English</string>
+	<key>CFBundleName</key>
+	<string>oxford_orig-src</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>DCSDictionaryCopyright</key>
+	<string>Oxford Dictionary of English | Copyright © 2010, 2022 by Oxford University Press. All rights reserved..</string>
+	<key>DCSDictionaryManufacturerName</key>
+	<string>Apple Inc..</string>
+	<key>DCSDictionaryXSL</key>
+	<string></string>
+	<key>DCSDictionaryDefaultPrefs</key>
+	<dict>
+		
+	</dict>
+	<key>DCSDictionaryPrefsHTML</key>
+	<string></string>
+	
+</dict>
+</plist>

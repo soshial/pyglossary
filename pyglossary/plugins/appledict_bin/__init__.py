@@ -423,19 +423,7 @@ class Reader(object):
 				key=lambda keyData: -keyData.priority,
 			)
 			for keyData in keyDataList:
-				alt = keyData.keyword
-				try:
-					alt.encode("utf-8")
-				except UnicodeEncodeError as e:
-					# why is this happening?
-					# example glossaries: Emojipedia, Simplified_Chinese
-					log.error(
-						f"bad unicode in {alt!r}, "
-						f"keyData={keyData.toDict()}, \n"
-						f"error: {e}",
-					)
-					continue
-				words.append(alt)
+				words.append(keyData.keyword)
 
 		defi = self._getDefi(entryElems[0], keyDataList)
 
@@ -450,16 +438,13 @@ class Reader(object):
 		self: "typing.Self",
 		entryBytes: bytes,
 	) -> "Element | None":
-		# etree.register_namespace("d", "http://www.apple.com/DTDs/DictionaryService-1.0.rng")
-		entryFull = entryBytes.decode(self._encoding, errors="replace")
-		entryFull = entryFull.strip()
-		if not entryFull:
+		if not entryBytes.strip():
 			return None
 		try:
-			entryRoot = etree.fromstring(entryFull)
+			entryRoot = etree.fromstring(entryBytes)
 		except etree.XMLSyntaxError as e:
 			log.error(
-				f"{entryFull=}",
+				f"{entryBytes=}",
 			)
 			raise e
 		if self._limit <= 0:
@@ -724,7 +709,6 @@ class Reader(object):
 				articleAddress = ArticleAddress(sectionOffset, pos)
 				pos += offset
 				entryBytes = buffer[pos:pos + chunkLen]
-				entryBytes = entryBytes.replace(b"\x00", b"")
 
 				pos += chunkLen
 				yield entryBytes, articleAddress

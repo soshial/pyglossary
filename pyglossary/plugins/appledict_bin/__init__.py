@@ -397,6 +397,7 @@ class Reader:
 		self,
 		entryBytes: bytes,
 		articleAddress: "ArticleAddress",
+		keys_output,
 	) -> "EntryType | None":
 		# 1. create and validate XML of the entry's body
 		entryRoot = self.convertEntryBytesToXml(entryBytes)
@@ -424,9 +425,16 @@ class Reader:
 				key=attrgetter("priority"),
 				reverse=True,
 			)
-			words += [keyData.keyword for keyData in keyDataList]
+			# add 'proszą' and 'prośmy' but not 'prosza' and 'prosmy'
+			words += [keyData.headword for keyData in keyDataList]
 
 		defi = self._getDefi(entryElems[0])
+
+		# add links to reflexive verbs
+		defi = re.sub(r"<i>См\. также:</i> (.+)\n", r'\n<i>См. также:</i> <a href="bword://\g<1>">\g<1></a>\n', defi)
+		defi = defi.replace(';', ';\n        ')
+
+		keys_output.write(f'{word},' + ','.join(set(words)) + '\n')
 
 		return self._glos.newEntry(
 			word=words,
@@ -695,14 +703,14 @@ class Reader:
 			join(self._contentsPath, "Resources"),
 			recurse=True,
 		)
-
-		for entryBytes, articleAddress in self.yieldEntryBytes(
-			self._file,
-			self._properties,
-		):
-			entry = self.createEntry(entryBytes, articleAddress)
-			if entry is not None:
-				yield entry
+		with open('wiedza-berk-bear.txt', 'w') as keys_output:
+			for entryBytes, articleAddress in self.yieldEntryBytes(
+				self._file,
+				self._properties,
+			):
+				entry = self.createEntry(entryBytes, articleAddress, keys_output)
+				if entry is not None:
+					yield entry
 
 	def yieldEntryBytes(
 		self,

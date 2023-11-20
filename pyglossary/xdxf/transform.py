@@ -15,7 +15,7 @@ __all__ = [
 
 class XdxfTransformer:
 	_gram_color: str = "green"
-	_example_padding: int = 10
+	_example_padding: int = 24
 
 	def __init__(self, encoding: str = "utf-8") -> None:
 		self._encoding = encoding
@@ -146,7 +146,7 @@ class XdxfTransformer:
 			"div",
 			attrib={
 				"class": "example",
-				"style": f"padding: {self._example_padding}px 0px;",
+				"style": f"padding: 0px 0px 0px {self._example_padding}px; color: #888888;",
 			},
 		):
 			for child in elem.xpath("child::node()"):
@@ -203,10 +203,10 @@ class XdxfTransformer:
 		hf.write(ET.Element("br"))
 
 	def _write_k(self, hf: "T_htmlfile", child: "Element") -> None:
-		with hf.element("div", attrib={"class": child.tag}):
+		with (hf.element("div", attrib={"class": child.tag})):
 			# with hf.element(glos.titleTag(child.text)):
 			# ^ no glos object here!
-			with hf.element("b"):
+			with hf.element("b", style="font-size: 150%"):
 				self.writeChildrenOf(hf, child)
 
 	def _write_mrkd(self, hf: "T_htmlfile", child: "Element") -> None:  # noqa: PLR6301

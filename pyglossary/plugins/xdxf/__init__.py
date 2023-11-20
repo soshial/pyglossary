@@ -154,8 +154,16 @@ class Reader:
 
 	def open(self, filename: str) -> None:  # noqa: PLR0912
 		# <!DOCTYPE xdxf SYSTEM "http://xdxf.sourceforge.net/xdxf_lousy.dtd">
-		from lxml import etree as ET
 
+		import os
+		slob = '/Users/soshial/Downloads/slob/conversion_output/wiedza_pl-ru_2024-05-07_soshial.slob'
+		if os.path.exists(slob):
+			os.remove(slob)
+
+		# from pyglossary.plugins.xdxf import wiedza
+		# f1 = wiedza.process_kref(filename)
+		# f2 = wiedza.process_tilda_file(f1)
+		# self._filename = f2
 		self._filename = filename
 		if self._html:
 			self.makeTransformer()
@@ -171,6 +179,10 @@ class Reader:
 			),
 		)
 
+		with open('pyglossary/xdxf/xdxf.css', 'rb') as css_file:
+			self._glos.addEntry(self._glos.newDataEntry('css/xdxf.css', css_file.read()))
+
+		from lxml import etree as ET
 		context = ET.iterparse(  # type: ignore
 			cfile,
 			events=("end",),
@@ -242,6 +254,11 @@ class Reader:
 				defi = b_defi[4:-5].decode(self._encoding).strip()
 				defiFormat = "x"
 
+			defi = (f'<!DOCTYPE html><html><head>'
+					f'<link rel="stylesheet" href="css/xdxf.css"/>'
+					f'<link rel="stylesheet" href="/css/xdxf.css"/>'
+					f'<link rel="stylesheet" href="../css/xdxf.css"/>'
+					f'</head><body>{defi}</body></html>')
 			# log.info(f"{defi=}, {words=}")
 			yield self._glos.newEntry(
 				words,
